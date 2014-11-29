@@ -112,6 +112,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modulos\Aleatorios.vb" />
+    <Compile Include="Modulos\Ficheros.vb" />
+    <Compile Include="Modulos\Log.vb" />
     <Compile Include="Modulos\Procesos.Ventanas.strInfoVentana.vb" />
     <Compile Include="Modulos\Procesos.Ventanas.vb" />
     <Compile Include="Modulos\Objetos.vb" />
