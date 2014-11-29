@@ -39,7 +39,7 @@ Namespace Procesos
         End Function
 
         ''' <summary>
-        ''' Busca un proceso a partir de la ruta donde se está ejecutando
+        ''' Busca un proceso utilizando la ruta completa de ejecución de este
         ''' </summary>
         ''' <param name="RutaEjecutable"></param>
         ''' <returns></returns>
