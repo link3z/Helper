@@ -124,6 +124,7 @@
     <Compile Include="Modulos\Objetos.vb" />
     <Compile Include="Modulos\Procesos.vb" />
     <Compile Include="Modulos\Streams.vb" />
+    <Compile Include="Modulos\Validadores.vb" />
     <Compile Include="Modulos\Windows.UAC.vb" />
     <Compile Include="Modulos\WinForms.ProgressBar.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
