@@ -112,13 +112,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modulos\Aleatorios.vb" />
+    <Compile Include="Modulos\Ficheros.Buscar.vb" />
+    <Compile Include="Modulos\Ficheros.CarpetasEspeciales.vb" />
+    <Compile Include="Modulos\Ficheros.Copiar.vb" />
+    <Compile Include="Modulos\Ficheros.Extensiones.vb" />
+    <Compile Include="Modulos\Ficheros.Mime.vb" />
     <Compile Include="Modulos\Ficheros.vb" />
     <Compile Include="Modulos\Log.vb" />
     <Compile Include="Modulos\Procesos.Ventanas.strInfoVentana.vb" />
     <Compile Include="Modulos\Procesos.Ventanas.vb" />
     <Compile Include="Modulos\Objetos.vb" />
     <Compile Include="Modulos\Procesos.vb" />
+    <Compile Include="Modulos\Streams.vb" />
     <Compile Include="Modulos\Windows.UAC.vb" />
+    <Compile Include="Modulos\WinForms.ProgressBar.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

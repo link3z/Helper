@@ -1,7 +1,10 @@
-﻿Imports System.Windows.Forms
-Imports System.IO
+﻿Imports System.IO
+Imports System.Windows.Forms
 
 Namespace Log
+    ''' <summary>
+    ''' Funciones necesarias para la implementación del sistema de LOG con rotación
+    ''' </summary>
     Public Module modRecompilaHelperLog
 #Region " PROPIEDADES "
         ''' <summary>
@@ -76,7 +79,7 @@ Namespace Log
                 Dim rutaFicheroConDebugParticular As String = Ficheros.StartUpPath & "\.conDebug"
 
                 ' Se activa el log validando cualquiera de las tres opciones de inicio
-                _LOG_ACTIVO = (System.IO.File.Exists(rutaFicheroConDebugGeneral) Or System.IO.File.Exists(rutaFicheroConDebugParticular) Or eActivar)
+                _LOG_ACTIVO = (File.Exists(rutaFicheroConDebugGeneral) Or File.Exists(rutaFicheroConDebugParticular) Or eActivar)
 
                 If _LOG_ACTIVO = True Then
                     ' Inicialización de las variables
@@ -178,7 +181,7 @@ Namespace Log
                 End If
 
                 ' Se crea el escritor encargado de insertar las nuevas lineas de LOG
-                Dim elEscritor As New System.IO.StreamWriter(nombreFinal, True)
+                Dim elEscritor As New StreamWriter(nombreFinal, True)
                 elEscritor.Write(Format(Now, "HH:mm:ss") & " [" & Codigo & "]")
                 elEscritor.WriteLine(" " & eMensaje)
 

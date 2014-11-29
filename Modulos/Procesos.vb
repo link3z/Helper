@@ -2,7 +2,8 @@
 Imports System.Drawing
 
 Namespace Procesos
-    Public Module modProcesos
+    Public Module modRecompilaProcesos
+#Region " METODOS "
         ''' <summary>
         ''' Determina si la aplicación ya está en ejecución, para ello, se busca el número de procesos
         ''' que se llamen igual en la lista de procesos en ejecución, si hay más de uno se detiene la ejecución
@@ -143,6 +144,7 @@ Namespace Procesos
                 End Try
             End While
         End Sub
+#End Region
     End Module
 End Namespace
 
