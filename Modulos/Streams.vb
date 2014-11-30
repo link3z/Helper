@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Drawing
 
 Namespace Streams
     Public Module modRecompilaStreams
@@ -8,7 +9,7 @@ Namespace Streams
         ''' </summary>
         ''' <param name="eStream">Stream que se va a convertir en un Array de Bytes</param>
         ''' <returns>Array de bytes generado a partir del Stream</returns>
-        Public Function Stream2ByteArray(ByVal eStream As System.IO.Stream) As Byte()
+        Public Function stream2ByteArray(ByVal eStream As System.IO.Stream) As Byte()
             Try
                 Dim laLongitud As Integer = Convert.ToInt32(eStream.Length)
                 Dim paraDevolver As Byte() = New Byte(laLongitud) {}
@@ -28,7 +29,7 @@ Namespace Streams
         ''' </summary>
         ''' <param name="eByte">Array de bytes a convertir</param>
         ''' <returns>Stream generado a partir del array de bytes</returns>
-        Public Function ByteArray2Stream(ByVal eByte As Byte()) As System.IO.Stream
+        Public Function byteArray2Stream(ByVal eByte As Byte()) As System.IO.Stream
             Try
                 Dim paraDevolver As New MemoryStream
                 paraDevolver.Write(eByte, 0, eByte.Length)
@@ -47,7 +48,7 @@ Namespace Streams
         ''' <param name="eRutaFichero">Ruta del fichero donde se va a guardar</param>
         ''' <param name="eCrearFichero">Si se tiene que crear el fichero en caso de que este no exista</param>
         ''' <returns>True/False dependiendo de si se pudo efectuar o no la operación</returns>
-        Public Function Stream2File(ByVal eStream As Stream, _
+        Public Function stream2File(ByVal eStream As Stream, _
                                     ByVal eRutaFichero As String, _
                                     Optional ByVal eCrearFichero As Boolean = True) As Boolean
 
@@ -76,7 +77,7 @@ Namespace Streams
         ''' </summary>
         ''' <param name="eRutaFichero">Ruta del ficheor que se va a leer</param>
         ''' <returns>Stream obtenido del fichero</returns>
-        Public Function File2Stream(ByVal eRutaFichero As String) As Stream
+        Public Function file2Stream(ByVal eRutaFichero As String) As Stream
             Try
                 Dim paraDevolver As New MemoryStream()
                 Dim elFichero As New FileStream(eRutaFichero, FileMode.Open, FileAccess.Read)
@@ -98,7 +99,7 @@ Namespace Streams
         ''' </summary>
         ''' <param name="eRutaArchivo">Ruta del archivo a convertir</param>
         ''' <returns>Byte array generado a partir del archivo</returns>
-        Public Function File2Byte(ByVal eRutaArchivo As String) As Byte()
+        Public Function file2Byte(ByVal eRutaArchivo As String) As Byte()
             Return Ficheros.Archivo2Byte(eRutaArchivo)
         End Function
 
@@ -108,9 +109,49 @@ Namespace Streams
         ''' <param name="eByte">Array de bytes a guardar</param>
         ''' <param name="eRutaSalida">Ruta donde se debe guardar el array de bytes</param>
         ''' <returns>True o False dependiendo de si se ejecutó correctamente la operación</returns>
-        Public Function Byte2File(ByVal eByte() As Byte, _
+        Public Function byte2File(ByVal eByte() As Byte, _
                                   ByVal eRutaSalida As String) As Boolean
             Return Ficheros.Byte2Archivo(eByte, eRutaSalida)
+        End Function
+
+        ''' <summary>
+        ''' Codifica la imagen que se le pasa como parámetro en su correspondiente cadena en Base64
+        ''' </summary>
+        ''' <param name="eImagen">Imagen a convertir a base64</param>
+        ''' <param name="eFormato">Formato de la imagen, por defecto, png</param>
+        ''' <returns>Cadena con la imagen convertida a base64</returns>
+        Public Function imagen2Base64(ByVal eImagen As System.Drawing.Image, _
+                                      Optional ByVal eFormato As System.Drawing.Imaging.ImageFormat = Nothing) As String
+            Return Imagenes.imagen2Base64(eImagen, eFormato)
+        End Function
+
+        ''' <summary>
+        ''' Decodifica una imagen codificada en base64 a una imagen
+        ''' </summary>
+        ''' <param name="eString">String con la imagen codificada en Base64</param>
+        ''' <returns>La imagen para poder trabajar con ella</returns>
+        Public Function base642Imagen(ByVal eString As String) As Image
+            Return Imagenes.base642Imagen(eString)
+        End Function
+
+        ''' <summary>
+        ''' Convierte una imagen a un array de bytes
+        ''' </summary>
+        ''' <param name="eImagen">Imagen que se quiere transformar</param>
+        ''' <param name="eFormato">Formato que se le va a aplicar a la imagen</param>
+        ''' <returns>Array de bytes de la imagen</returns>
+        Public Function imagen2Byte(ByVal eImagen As Image, _
+                                    Optional ByVal eFormato As System.Drawing.Imaging.ImageFormat = Nothing) As Byte()
+            Return Imagenes.imagen2Byte(eImagen, eFormato)
+        End Function
+
+        ''' <summary>
+        ''' Convierte un array de bytes en una imagen
+        ''' </summary>
+        ''' <param name="eByte">Array de bytes que contienen la imagen</param>
+        ''' <returns>Imagen que se genera a partir de los bytes</returns>
+        Public Function byte2Imagen(ByVal eByte As Byte()) As Image
+            Return Imagenes.byte2Imagen(eByte)
         End Function
 #End Region
     End Module

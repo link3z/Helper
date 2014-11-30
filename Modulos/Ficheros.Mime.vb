@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.InteropServices
 Imports System.IO
 Imports Microsoft.Win32
+Imports System.Drawing.Imaging
 
 Namespace Ficheros
     Namespace Mime
@@ -18,7 +19,7 @@ Namespace Ficheros
             ''' </summary>
             ''' <param name="eRutaArchivo">Ruta del archivo a analizar</param>
             ''' <returns>Tipo mime que determina el tipo de archivo</returns>
-            Public Function ObtenerTipoArchivo(ByVal eRutaArchivo As String) As String
+            Public Function obtenerTipoArchivo(ByVal eRutaArchivo As String) As String
                 Dim paraDevolver As String = "unknown/unknown"
 
                 If IO.File.Exists(eRutaArchivo) Then
@@ -34,7 +35,7 @@ Namespace Ficheros
                             End If
                         End Using
 
-                        paraDevolver = ObtenerTipoArchivo(eRutaArchivo)
+                        paraDevolver = obtenerTipoArchivo(eRutaArchivo)
                     Catch ex As Exception
                         If Log._LOG_ACTIVO Then Log.escribirLog("Se ha producido un error al tratar de obtener el tipo MIME del archivo '" & eRutaArchivo & "'...", ex, New StackTrace(0, True))
                         paraDevolver = "unknown/unknown"
@@ -52,7 +53,7 @@ Namespace Ficheros
             ''' </summary>
             ''' <param name="eBytes">Contenido del archivo o cabecera de este</param>
             ''' <returns>Mime del archivo</returns>
-            Public Function ObtenerTipoArchivo(ByVal eBytes As Byte()) As String
+            Public Function obtenerTipoArchivo(ByVal eBytes As Byte()) As String
                 Dim paraDevolver As String = "unknown/unknown"
 
                 ' Si no existe la cabecdera del fichero se devuelve el mime desconocido
@@ -90,13 +91,13 @@ Namespace Ficheros
             ''' </summary>
             ''' <param name="eMime">Tipo mime del que se quiere obtener la extensión por defecto</param>
             ''' <returns>Extensión por defecto asociada a un tipo mime</returns>
-            Public Function ExtensionPorDefecto(ByVal eMime As String) As String
+            Public Function extensionPorDefecto(ByVal eMime As String) As String
                 Dim paraDevolver As String = ""
 
                 Try
                     Dim key As RegistryKey = Registry.ClassesRoot.OpenSubKey("MIME\Database\Content Type\" & eMime, False)
                     Dim value As Object = If(key IsNot Nothing, key.GetValue("Extension", Nothing), Nothing)
-                    ExtensionPorDefecto = If(value IsNot Nothing, value.ToString(), String.Empty)
+                    extensionPorDefecto = If(value IsNot Nothing, value.ToString(), String.Empty)
                 Catch ex As Exception
                     If Log._LOG_ACTIVO Then Log.escribirLog("Se ha producido un error obteniendo pa extensión asociada al tipo mime '" & eMime & "'...", ex, New StackTrace(0, True))
                     paraDevolver = String.Empty
@@ -104,9 +105,16 @@ Namespace Ficheros
 
                 Return paraDevolver
             End Function
+
+            ''' <summary>
+            ''' Obtiene información de un codec de imagen a partir de su tipo mime
+            ''' </summary>
+            ''' <param name="eMime">Tipo mime del que se quiere obtener la información</param>
+            ''' <returns>Información del codec</returns>
+            Public Function getEncoderInfo(ByVal eMime As String) As ImageCodecInfo
+                Return Imagenes.getEncoderInfo(eMime)
+            End Function
 #End Region
-
-
         End Module
     End Namespace
 End Namespace
