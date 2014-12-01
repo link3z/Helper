@@ -111,8 +111,8 @@ Namespace Ficheros
             ''' </summary>
             ''' <param name="eMime">Tipo mime del que se quiere obtener la información</param>
             ''' <returns>Información del codec</returns>
-            Public Function getEncoderInfo(ByVal eMime As String) As ImageCodecInfo
-                Return Imagenes.getEncoderInfo(eMime)
+            Public Function obtenerCodec(ByVal eMime As String) As ImageCodecInfo
+                Return Imagenes.obtenerCodec(eMime)
             End Function
 #End Region
         End Module

@@ -153,6 +153,24 @@ Namespace Streams
         Public Function byte2Imagen(ByVal eByte As Byte()) As Image
             Return Imagenes.byte2Imagen(eByte)
         End Function
+
+        ''' <summary>
+        ''' Convierte el string a base 64 string
+        ''' </summary>
+        ''' <param name="eEntrada">Cadena de entrada</param>
+        ''' <returns>Cadena convertida a base 64</returns>
+        Public Function string2Base64(ByVal eEntrada As String) As String
+            Return Criptografia.string2Base64(eEntrada)
+        End Function
+
+        ''' <summary>
+        ''' Convierte una cadena en base 64 a una cadena nomrmal
+        ''' </summary>
+        ''' <param name="eEntrada">Cadena en base 64</param>
+        ''' <returns>Cadena nomrmal</returns>
+        Public Function base642String(ByVal eEntrada As String) As String
+            Return Criptografia.base642String(eEntrada)
+        End Function
 #End Region
     End Module
 End Namespace

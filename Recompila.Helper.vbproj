@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modulos\Aleatorios.vb" />
+    <Compile Include="Modulos\Criptografia.vb" />
     <Compile Include="Modulos\FicheroInicio.vb" />
     <Compile Include="Modulos\Ficheros.Buscar.vb" />
     <Compile Include="Modulos\Ficheros.CarpetasEspeciales.vb" />
