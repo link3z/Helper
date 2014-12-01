@@ -65,6 +65,24 @@ Namespace Ficheros
             ''' </summary>
             ''' <param name="eTitulo">Título a mostrar en el FileOpenDialog</param>
             ''' <param name="eRutaInicial">Ruta inicial donde se tiene que realizar la búsqueda</param>
+            ''' <param name="eExtensionesArchivo">Extensiones permitidas en formato *.ex1|*.ex1|*.ex2|*.ex2</param>
+            ''' <param name="eNombreArchivo">Nombre inicial del archivo</param>
+            ''' <returns>Ruta al archivo que se va a abrir o una cadena vacía</returns>
+
+            Public Function buscarArchivo(ByVal eTitulo As String, _
+                                          Optional ByVal eRutaInicial As String = "", _
+                                          Optional ByVal eExtensionesArchivo As String = "*.*", _
+                                          Optional ByVal eNombreArchivo As String = "") As String
+
+                Return buscarArchivoInterno(eTitulo, eRutaInicial, eExtensionesArchivo, eNombreArchivo)
+            End Function
+
+
+            ''' <summary>
+            ''' Permite la búsqueda y apertura de un archivo
+            ''' </summary>
+            ''' <param name="eTitulo">Título a mostrar en el FileOpenDialog</param>
+            ''' <param name="eRutaInicial">Ruta inicial donde se tiene que realizar la búsqueda</param>
             ''' <param name="eExtensionesArchivo">Listado con las extensiones que se pueden abrir</param>
             ''' <param name="eNombreArchivo">Nombre inicial del archivo</param>
             ''' <returns>Ruta al archivo que se va a abrir o una cadena vacía</returns>
@@ -72,8 +90,6 @@ Namespace Ficheros
                                           Optional ByVal eRutaInicial As String = "", _
                                           Optional ByVal eExtensionesArchivo As List(Of String) = Nothing, _
                                           Optional ByVal eNombreArchivo As String = "") As String
-                Dim paraDevolver As String = ""
-
                 ' Se crea el filtro para la apertura a partir de las extensiones
                 Dim elFiltro As String = "*.*|*.*"
                 If eExtensionesArchivo IsNot Nothing AndAlso eExtensionesArchivo.Count > 0 Then
@@ -100,6 +116,24 @@ Namespace Ficheros
                     Next
                 End If
 
+                ' Se raliza la búsuqeda interna con los parámetros configurados
+                Return buscarArchivoInterno(eTitulo, eRutaInicial, elFiltro, eNombreArchivo)
+            End Function
+
+            ''' <summary>
+            ''' Permite la búsqueda y apertura de un archivo
+            ''' </summary>
+            ''' <param name="eTitulo">Título a mostrar en el FileOpenDialog</param>
+            ''' <param name="eRutaInicial">Ruta inicial donde se tiene que realizar la búsqueda</param>
+            ''' <param name="eExtensionesArchivo">Listado con las extensiones que se pueden abrir</param>
+            ''' <param name="eNombreArchivo">Nombre inicial del archivo</param>
+            ''' <returns>Ruta al archivo que se va a abrir o una cadena vacía</returns>
+            Private Function buscarArchivoInterno(ByVal eTitulo As String, _
+                                                  ByVal eRutaInicial As String, _
+                                                  ByVal eExtensionesArchivo As String, _
+                                                  ByVal eNombreArchivo As String) As String
+                Dim paraDevolver As String = ""
+
                 ' Se realiza la busqueda del documento configurado el FileOpenDialog
                 Try
                     _DIALOGO_APERTURA.Title = eTitulo
@@ -108,7 +142,7 @@ Namespace Ficheros
                     Else
                         _DIALOGO_APERTURA.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.MyDocuments
                     End If
-                    _DIALOGO_APERTURA.Filter = elFiltro
+                    _DIALOGO_APERTURA.Filter = eExtensionesArchivo
                     If Not String.IsNullOrEmpty(eNombreArchivo) Then
                         _DIALOGO_APERTURA.FileName = eNombreArchivo
                     Else
@@ -127,6 +161,7 @@ Namespace Ficheros
 
                 Return paraDevolver
             End Function
+
 
             ''' <summary>
             ''' Crea un FileOpenDialog y obtiene la ruta a la imagen seleccionada por el usuario
@@ -275,7 +310,7 @@ Namespace Ficheros
                     Else
                         _DIALOGO_APERTURA_FOLDER.SelectedPath = ""
                     End If
-                    
+
                     If _DIALOGO_APERTURA_FOLDER.ShowDialog() = DialogResult.OK Then
                         If IO.Directory.Exists(_DIALOGO_APERTURA_FOLDER.SelectedPath) Then
                             paraDevolver = _DIALOGO_APERTURA_FOLDER.SelectedPath
