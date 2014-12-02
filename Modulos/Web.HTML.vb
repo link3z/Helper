@@ -740,13 +740,8 @@ Namespace Web
             ''' en base64
             ''' </summary>
             ''' <param name="eHTML">Código HTML original</param>
-            ''' <param name="eRutaDirectorioImagenes">Ruta base donde se encuentran las imágenes</param>
             ''' <returns>Código HTML con las imágenes incrustadas</returns>
-            Public Function HTML2HTML_IMG64_FOLDER(ByVal eHTML As String, _
-                                                   ByVal eRutaDirectorioImagenes As String) As String
-                ' Si la ruta de las imágenes no termina con \ esta se añade
-                If Not String.IsNullOrEmpty(eRutaDirectorioImagenes) AndAlso Not eRutaDirectorioImagenes.EndsWith("\") Then eRutaDirectorioImagenes &= "\"
-
+            Public Function HTML2HTML_IMG64(ByVal eHTML As String) As String
                 ' Se crea la plantilla modificada, que será identica a la original cambiando los ficheros por 
                 ' las imágenes en BASE64
                 Dim PlantillaModificada As String = eHTML
@@ -756,26 +751,27 @@ Namespace Web
                 Dim elPatron As String = "(?i:<img.*?src=""(.*?)"".*?>)"
                 Dim losResultados As MatchCollection = Regex.Matches(eHTML, elPatron)
                 For Each unResultado As Match In losResultados
-                    ' Se obtiene la ruta del fichero
-                    Dim nombreFichero As String = Regex.Match(unResultado.Groups(0).Value, "<img.+?src=[""'](.+?)[""'].*?>", RegexOptions.IgnoreCase).Groups(1).Value
-                    Dim rutaFichero As String = eRutaDirectorioImagenes & nombreFichero
+                    ' Se obtiene la url donde está la imagen
+                    Dim urlFichero As String = Regex.Match(unResultado.Groups(0).Value, "<img.+?src=[""'](.+?)[""'].*?>", RegexOptions.IgnoreCase).Groups(1).Value
 
-                    ' Se comprueba que exista el fichero en la ruta, si existe se carga en una imagen
-                    If IO.File.Exists(rutaFichero) Then
-                        Dim laImagen As Image = Image.FromFile(rutaFichero)
+                    ' Se trata de obtener la imagen desde la url
+                    Dim laImagen As Image = Imagenes.obtenerImagenHTTP2Image(urlFichero)
+
+                    ' Si se pudo obtener la imagen esta se convierta a base64
+                    If laImagen IsNot Nothing Then
                         Dim laImagenBase64 As String = "data:image/png;base64," & Imagenes.imagen2Base64(laImagen, System.Drawing.Imaging.ImageFormat.Png)
 
                         ' Se reemplaza la imagen original por la imagen en base 64
                         Dim lasCadenasBusqueda As New List(Of String)
                         With lasCadenasBusqueda
-                            .Add("src=""" & nombreFichero & """")
-                            .Add("src =""" & nombreFichero & """")
-                            .Add("src= """ & nombreFichero & """")
-                            .Add("src = """ & nombreFichero & """")
-                            .Add("src='" & nombreFichero & "'")
-                            .Add("src ='" & nombreFichero & "'")
-                            .Add("src= '" & nombreFichero & "'")
-                            .Add("src = '" & nombreFichero & "'")
+                            .Add("src=""" & urlFichero & """")
+                            .Add("src =""" & urlFichero & """")
+                            .Add("src= """ & urlFichero & """")
+                            .Add("src = """ & urlFichero & """")
+                            .Add("src='" & urlFichero & "'")
+                            .Add("src ='" & urlFichero & "'")
+                            .Add("src= '" & urlFichero & "'")
+                            .Add("src = '" & urlFichero & "'")
                         End With
                         Dim cadenaReemplazo As String = "src='" & laImagenBase64 & "'"
                         For Each unaCadenaBusqueda As String In lasCadenasBusqueda
