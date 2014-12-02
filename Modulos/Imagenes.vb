@@ -211,7 +211,7 @@ Namespace Imagenes
         ''' </summary>
         ''' <param name="eURL">Dirección URL de la imagen</param>
         ''' <returns>Imagen obtenida de la dirección URL</returns>
-        Public Function obtenerImagenHTTP(ByVal eURL As String) As Image
+        Public Function obtenerImagenHTTP2Image(ByVal eURL As String) As Image
             Dim paraDevolver As Image = Nothing
 
             Dim elRequest As Net.HttpWebRequest = Nothing
@@ -232,6 +232,43 @@ Namespace Imagenes
             Finally
                 If Not elStream Is Nothing Then elStream.Close()
                 If Not elResponse Is Nothing Then elResponse.Close()
+            End Try
+
+            Return paraDevolver
+        End Function
+
+        ''' <summary>
+        ''' Obtine una imagen desde una URL especificada devolviendo el array de bytes que la representa
+        ''' </summary>
+        ''' <param name="eURL">Dirección URL de la imagen</param>
+        ''' <returns>Imagen obtenida de la dirección URL</returns>
+        Public Function obtenerImagenHTTP2Byte(ByVal eURL As String) As Byte()
+            Dim paraDevolver As Byte() = Nothing
+
+            Dim elRequest As Net.HttpWebRequest = Nothing
+            Dim elResponse As Net.HttpWebResponse = Nothing
+
+            Try
+                elRequest = Net.HttpWebRequest.Create(eURL)
+                elResponse = elRequest.GetResponse
+
+                Using elStream = elResponse.GetResponseStream()
+                    Using ms As New MemoryStream(elResponse.ContentLength - 1)
+                        Dim bytesLeidos As Long = 0
+                        Dim buffer As Byte() = New Byte(256) {}
+                        Do
+                            bytesLeidos = elStream.Read(buffer, 0, buffer.Length)
+                            ms.Write(buffer, 0, bytesLeidos)
+                        Loop While bytesLeidos > 0
+
+                        paraDevolver = ms.ToArray
+                    End Using
+                End Using
+
+                Return paraDevolver
+            Catch ex As System.Exception
+                If Log._LOG_ACTIVO Then Log.escribirLog("Se ha producido un error al obtener una imagen desde una URL...", ex, New StackTrace(0, True))
+                paraDevolver = Nothing
             End Try
 
             Return paraDevolver

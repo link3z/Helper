@@ -742,8 +742,8 @@ Namespace Web
             ''' <param name="eHTML">Código HTML original</param>
             ''' <param name="eRutaDirectorioImagenes">Ruta base donde se encuentran las imágenes</param>
             ''' <returns>Código HTML con las imágenes incrustadas</returns>
-            Public Function HTML2HTML_IMGBase64(ByVal eHTML As String, _
-                                                ByVal eRutaDirectorioImagenes As String) As String
+            Public Function HTML2HTML_IMG64_FOLDER(ByVal eHTML As String, _
+                                                   ByVal eRutaDirectorioImagenes As String) As String
                 ' Si la ruta de las imágenes no termina con \ esta se añade
                 If Not String.IsNullOrEmpty(eRutaDirectorioImagenes) AndAlso Not eRutaDirectorioImagenes.EndsWith("\") Then eRutaDirectorioImagenes &= "\"
 
@@ -785,6 +785,24 @@ Namespace Web
                 Next
 
                 Return PlantillaModificada
+            End Function
+
+            ''' <summary>
+            ''' Obtine una imagen desde una URL especificada
+            ''' </summary>
+            ''' <param name="eURL">Dirección URL de la imagen</param>
+            ''' <returns>Imagen obtenida de la dirección URL</returns>
+            Public Function obtenerImagenHTTP2Image(ByVal eURL As String) As Image
+                Return Imagenes.obtenerImagenHTTP2Image(eURL)
+            End Function
+
+            ''' <summary>
+            ''' Obtine una imagen desde una URL especificada devolviendo el array de bytes que la representa
+            ''' </summary>
+            ''' <param name="eURL">Dirección URL de la imagen</param>
+            ''' <returns>Imagen obtenida de la dirección URL</returns>
+            Public Function obtenerImagenHTTP2Byte(ByVal eURL As String) As Byte()
+                Return Imagenes.obtenerImagenHTTP2Byte(eURL)
             End Function
         End Module
     End Namespace
