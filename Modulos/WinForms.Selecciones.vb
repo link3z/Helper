@@ -164,6 +164,59 @@ Namespace WinForms
                 Cursor.Current = Cursors.Default
             End Sub
 
+            Public Sub marcarSeleccionados(ByRef eLista As KryptonCheckedListBox, _
+                                           ByVal eOpcionSeleccion As OpcionSeleccion, _
+                                           Optional ByVal eBarraProgreso As Object = Nothing)
+
+                Cursor.Current = Cursors.WaitCursor
+                Dim EstabaBarraVisible As Boolean = False
+
+                If eBarraProgreso IsNot Nothing Then
+                    EstabaBarraVisible = eBarraProgreso.Visible
+                    eBarraProgreso.Visible = True
+                    eBarraProgreso.Minimum = 0
+                    eBarraProgreso.Maximum = eLista.Items.Count
+                    eBarraProgreso.Value = 0
+                End If
+
+                ' Evitar que se repinte mientras se realizan los cambios
+                eLista.SuspendLayout()
+
+                For i As Integer = 0 To eLista.Items.Count - 1
+                    Select Case eOpcionSeleccion
+                        Case OpcionSeleccion.Todos
+                            eLista.SetItemCheckState(i, CheckState.Checked)
+
+                        Case OpcionSeleccion.Ninguno
+                            eLista.SetItemCheckState(i, CheckState.Unchecked)
+
+                        Case OpcionSeleccion.Invertir
+                            If eLista.GetItemCheckState(i) = CheckState.Checked Then
+                                eLista.SetItemCheckState(i, CheckState.Unchecked)
+                            Else
+                                eLista.SetItemCheckState(i, CheckState.Checked)
+                            End If
+                    End Select
+
+                    If eBarraProgreso IsNot Nothing Then
+                        eBarraProgreso.Value += 1
+                        eBarraProgreso.refresh()
+                        If CType(eBarraProgreso, Control).FindForm IsNot Nothing Then CType(eBarraProgreso, Control).FindForm.Refresh()
+                        System.Windows.Forms.Application.DoEvents()
+                    End If
+                Next
+
+                eLista.ResumeLayout()
+
+                If eBarraProgreso IsNot Nothing Then
+                    eBarraProgreso.Visible = EstabaBarraVisible
+                    eBarraProgreso.refresh()
+                    System.Windows.Forms.Application.DoEvents()
+                End If
+
+                Cursor.Current = Cursors.Default
+            End Sub
+
             Public Sub marcarSeleccionados(ByRef eDataGrid As DataGridView, _
                                            ByVal eOpcionSeleccion As OpcionSeleccion, _
                                            ByVal eIndiceColumna As Integer, _

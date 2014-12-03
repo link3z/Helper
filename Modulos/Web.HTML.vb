@@ -754,29 +754,31 @@ Namespace Web
                     ' Se obtiene la url donde está la imagen
                     Dim urlFichero As String = Regex.Match(unResultado.Groups(0).Value, "<img.+?src=[""'](.+?)[""'].*?>", RegexOptions.IgnoreCase).Groups(1).Value
 
-                    ' Se trata de obtener la imagen desde la url
-                    Dim laImagen As Image = Imagenes.obtenerImagenHTTP2Image(urlFichero)
+                    If Not urlFichero.ToLower.StartsWith("data:") Then
+                        ' Se trata de obtener la imagen desde la url
+                        Dim laImagen As Image = Imagenes.obtenerImagenHTTP2Image(urlFichero)
 
-                    ' Si se pudo obtener la imagen esta se convierta a base64
-                    If laImagen IsNot Nothing Then
-                        Dim laImagenBase64 As String = "data:image/png;base64," & Imagenes.imagen2Base64(laImagen, System.Drawing.Imaging.ImageFormat.Png)
+                        ' Si se pudo obtener la imagen esta se convierta a base64
+                        If laImagen IsNot Nothing Then
+                            Dim laImagenBase64 As String = "data:image/png;base64," & Imagenes.imagen2Base64(laImagen, System.Drawing.Imaging.ImageFormat.Png)
 
-                        ' Se reemplaza la imagen original por la imagen en base 64
-                        Dim lasCadenasBusqueda As New List(Of String)
-                        With lasCadenasBusqueda
-                            .Add("src=""" & urlFichero & """")
-                            .Add("src =""" & urlFichero & """")
-                            .Add("src= """ & urlFichero & """")
-                            .Add("src = """ & urlFichero & """")
-                            .Add("src='" & urlFichero & "'")
-                            .Add("src ='" & urlFichero & "'")
-                            .Add("src= '" & urlFichero & "'")
-                            .Add("src = '" & urlFichero & "'")
-                        End With
-                        Dim cadenaReemplazo As String = "src='" & laImagenBase64 & "'"
-                        For Each unaCadenaBusqueda As String In lasCadenasBusqueda
-                            PlantillaModificada = PlantillaModificada.Replace(unaCadenaBusqueda, cadenaReemplazo)
-                        Next
+                            ' Se reemplaza la imagen original por la imagen en base 64
+                            Dim lasCadenasBusqueda As New List(Of String)
+                            With lasCadenasBusqueda
+                                .Add("src=""" & urlFichero & """")
+                                .Add("src =""" & urlFichero & """")
+                                .Add("src= """ & urlFichero & """")
+                                .Add("src = """ & urlFichero & """")
+                                .Add("src='" & urlFichero & "'")
+                                .Add("src ='" & urlFichero & "'")
+                                .Add("src= '" & urlFichero & "'")
+                                .Add("src = '" & urlFichero & "'")
+                            End With
+                            Dim cadenaReemplazo As String = "src='" & laImagenBase64 & "'"
+                            For Each unaCadenaBusqueda As String In lasCadenasBusqueda
+                                PlantillaModificada = PlantillaModificada.Replace(unaCadenaBusqueda, cadenaReemplazo)
+                            Next
+                        End If
                     End If
                 Next
 

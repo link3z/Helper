@@ -58,8 +58,8 @@ Namespace Validadores
         ''' </summary>
         ''' <param name="sender">Control que desencadena el evento</param>
         ''' <param name="e">Parámetros pasados a la función</param>
-        Public Sub SoloNumeros(ByVal sender As System.Object, ByRef e As System.Windows.Forms.KeyPressEventArgs)
-            SoloNumeros(sender, e, True)
+        Public Sub SoloNumeros_KeyPress(ByVal sender As System.Object, ByRef e As System.Windows.Forms.KeyPressEventArgs)
+            SoloNumeros_KeyPress(sender, e, True)
         End Sub
 
         ''' <summary>
@@ -68,7 +68,7 @@ Namespace Validadores
         ''' <param name="sender">Control que desencadena el evento</param>
         ''' <param name="e">Parámetros pasados a la función</param>
         ''' <param name="PermitirNegativos">Permite la introducción de números negativos</param>
-        Public Sub soloNumeros(ByVal sender As System.Object, ByRef e As System.Windows.Forms.KeyPressEventArgs, ByVal PermitirNegativos As Boolean)
+        Public Sub soloNumeros_KeyPress(ByVal sender As System.Object, ByRef e As System.Windows.Forms.KeyPressEventArgs, ByVal PermitirNegativos As Boolean)
             Try
                 If e.KeyChar = "-" AndAlso Not sender.Text.StartsWith("-") AndAlso PermitirNegativos Then
                     e.Handled = True
@@ -97,7 +97,7 @@ Namespace Validadores
         ''' </summary>
         ''' <param name="sender">Control que desencadena el evento</param>
         ''' <param name="e">Parámetros pasados a la función</param>
-        Public Sub soloNumerosYDecimales(ByVal sender As Object, ByRef e As System.Windows.Forms.KeyPressEventArgs)
+        Public Sub soloNumerosYDecimales_KeyPress(ByVal sender As Object, ByRef e As System.Windows.Forms.KeyPressEventArgs)
             Try
                 If e.KeyChar = "." Then e.KeyChar = ","
 
@@ -111,7 +111,7 @@ Namespace Validadores
                     sender.SelectionStart = 2
                     sender.ScrollToCaret()
                 ElseIf e.KeyChar <> "," Then
-                    SoloNumeros(sender, e)
+                    SoloNumeros_KeyPress(sender, e)
                 End If
             Catch ex As System.Exception
                 e.Handled = False
@@ -124,8 +124,8 @@ Namespace Validadores
         ''' <param name="sender">Control que desencadena el evento</param>
         ''' <param name="e">Parámetros pasados a la función</param>
         ''' <param name="PermitirNegativos">Permite la introducción de números negativos</param>
-        Public Sub soloNumerosYDecimales(ByVal sender As Object, ByRef e As System.Windows.Forms.KeyPressEventArgs, _
-                                         ByVal PermitirNegativos As Boolean)
+        Public Sub soloNumerosYDecimales_KeyPress(ByVal sender As Object, ByRef e As System.Windows.Forms.KeyPressEventArgs, _
+                                                  ByVal PermitirNegativos As Boolean)
             Try
                 If e.KeyChar = "." Then e.KeyChar = ","
 
@@ -139,7 +139,7 @@ Namespace Validadores
                     sender.SelectionStart = 2
                     sender.ScrollToCaret()
                 ElseIf e.KeyChar <> "," Then
-                    SoloNumeros(sender, e)
+                    SoloNumeros_KeyPress(sender, e)
                 End If
             Catch ex As System.Exception
                 e.Handled = False
@@ -153,9 +153,9 @@ Namespace Validadores
         ''' <param name="e">Parámetros del evento</param>
         ''' <param name="eSoloMayusculas">Indica si solamente se permiten mayusculas</param>
         ''' <param name="eLetrasEspeciales">Indica si se permiten letras especiales (ñ y ç)</param>
-        Public Sub soloLetras(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs, _
-                              ByVal eSoloMayusculas As Boolean,
-                              ByVal eLetrasEspeciales As Boolean)
+        Public Sub soloLetras_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs, _
+                                       ByVal eSoloMayusculas As Boolean,
+                                       ByVal eLetrasEspeciales As Boolean)
             If eSoloMayusculas Then
                 If eLetrasEspeciales Then
                     If InStr(1, "ABCDEFGHIJKLMNOPQRSTUVWXYZÑÇ" & Chr(8), e.KeyChar) = 0 Then e.KeyChar = ""
@@ -178,9 +178,9 @@ Namespace Validadores
         ''' <param name="e">Parámetros del evento</param>
         ''' <param name="eSoloMayusculas">Indica si solamente se permiten mayusculas</param>
         ''' <param name="eLetrasEspeciales">Indica si se permiten letras especiales (ñ y ç)</param>
-        Public Sub SoloLetrasYNumeros(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs, _
-                                      ByVal eSoloMayusculas As Boolean, _
-                                      ByVal eLetrasEspeciales As Boolean)
+        Public Sub SoloLetrasYNumeros_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs, _
+                                               ByVal eSoloMayusculas As Boolean, _
+                                               ByVal eLetrasEspeciales As Boolean)
             If eSoloMayusculas Then
                 If eLetrasEspeciales Then
                     If InStr(1, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÑÇ" & Chr(8), e.KeyChar) = 0 Then e.KeyChar = ""
@@ -215,7 +215,7 @@ Namespace Validadores
         ''' </summary>
         ''' <param name="eCadena">Cadena de texto a verificar</param>
         Public Function validarNIFCIF(ByVal eCadena As String) As Boolean
-            Return ValidarCIF(eCadena) OrElse validarNif(eCadena)
+            Return validarCIF(eCadena) OrElse validarNif(eCadena)
         End Function
 
         ''' <summary>
@@ -480,6 +480,7 @@ Namespace Validadores
                 Return Nothing
             End Try
         End Function
+#End Region
 
 #Region " OBTENCIÓN Y VALIDACIÓN DC CCC"
         ''' <summary>
@@ -922,7 +923,6 @@ Namespace Validadores
                 Return False
             End Try
         End Function
-#End Region
 #End Region
     End Module
 End Namespace
