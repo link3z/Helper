@@ -144,6 +144,7 @@
     <Compile Include="Modulos\Ficheros.Extensiones.vb" />
     <Compile Include="Modulos\Ficheros.Mime.vb" />
     <Compile Include="Modulos\Ficheros.vb" />
+    <Compile Include="Modulos\Funciones.vb" />
     <Compile Include="Modulos\Imagenes.cImprimirImagen.vb" />
     <Compile Include="Modulos\Imagenes.vb" />
     <Compile Include="Modulos\KryptonForms.vb" />
