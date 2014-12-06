@@ -207,18 +207,19 @@ Namespace Ficheros
         ''' <returns>Cada uno de los directorios que componen la ruta completa</returns>
         Public Function splitDirectorios(ByVal eRutaCompleta As String) As String()
             Dim lasPartes() As String = eRutaCompleta.Split("\")
-            Dim paraDevolver() As String = {}
+            Dim paraDevolver As New List(Of String)
+
             If eRutaCompleta.StartsWith("\\") Then
                 For i As Integer = 1 To lasPartes.Length - 1
-                    paraDevolver(i - 1) = lasPartes(i)
+                    paraDevolver.Add(lasPartes(i))
                 Next
             Else
                 For i As Integer = 0 To lasPartes.Length - 1
-                    paraDevolver(i) = lasPartes(i)
+                    paraDevolver.Add(lasPartes(i))
                 Next
             End If
 
-            Return paraDevolver
+            Return paraDevolver.ToArray
         End Function
 
         ''' <summary>
